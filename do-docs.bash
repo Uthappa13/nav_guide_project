@@ -30,13 +30,13 @@ colcon build \
 ##echo "open src/my_model/docs/html/index.html"
 
 ###############################
-# 3. run my_controller's "docs" target
-###############################
-colcon build \
-       --event-handlers console_cohesion+ \
-       --packages-select my_controller \
-       --cmake-target "docs"
-##echo "open src/my_controller/docs/html/index.html"
+# # 3. run my_controller's "docs" target
+# ###############################
+# colcon build \
+#        --event-handlers console_cohesion+ \
+#        --packages-select my_controller \
+#        --cmake-target "docs"
+# ##echo "open src/my_controller/docs/html/index.html"
 
 ###############################
 # 4. combine all docs
