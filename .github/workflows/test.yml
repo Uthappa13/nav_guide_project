@@ -30,7 +30,7 @@
 # https://github.com/aschmelyun/github-actions-docker-compile
 ##############################################################################
 
-name: Run Unit Test and Upload Coverage Report
+name: Nav-guide-project
 on:
   # Triggered whenever push to main 
   push:
