@@ -71,7 +71,7 @@ jobs:
         run: |
           ./do-tests-and-coverage.bash
           ./do-docs.bash
-          cat /build/my_model/test_coverage.info
+          cat ./build/my_model/test_coverage.info
 
       # Upload coverage result to CodeCov
       - name: Upload coverage result to CodeCov
