@@ -70,7 +70,6 @@ jobs:
       - name: Build, run unit test, and generate coverage report
         run: |
           ./do-tests-and-coverage.bash
-          ./do-docs.bash
           cat ./build/my_model/test_coverage.info
 
       # Upload coverage result to CodeCov
