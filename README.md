@@ -1,6 +1,6 @@
 # Project NavGuide
 
-[![CICD Workflow status](https://github.com/Uthappa13/nav_guide_project/actions/workflows/test.yml/badge.svg)](https://github.com/Uthappa13/nav_guide_project/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/Uthappa13/nav_guide_project/branch/main/graph/badge.svg)](https://codecov.io/gh/Uthappa13/nav_guide_project) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![CICD Workflow status](https://github.com/rishieraj/nav_guide_project/actions/workflows/test.yml/badge.svg)](https://github.com/rishieraj/nav_guide_project/actions/workflows/test.yml) [![codecov](https://codecov.io/gh/rishieraj/nav_guide_project/branch/main/graph/badge.svg)](https://codecov.io/gh/rishieraj/nav_guide_project) [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Phase-1
 ### Project Summary
