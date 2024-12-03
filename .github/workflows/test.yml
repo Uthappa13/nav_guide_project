@@ -38,7 +38,7 @@ on:
 
   # Triggered whenever a pull request is created on main
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
     types: [opened]
 
   # Allow manual trigger
@@ -77,7 +77,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required (must add token in your github repo)
-          files: ${{github.workspace}}/build/my_model/test_coverage.info
+          files: ${{github.workspace}}/build/test_coverage_merged.info
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)      
           disable_search: true # optional (default = false)
