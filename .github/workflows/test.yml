@@ -34,7 +34,7 @@ name: Nav-guide-project
 on:
   # Triggered whenever push to main 
   push:
-    branches: [ "iteration1" ]
+    branches: [ "iteration2" ]
 
   # Triggered whenever a pull request is created on main
   pull_request:
