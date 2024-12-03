@@ -1,8 +1,0 @@
-[35m[1mConsolidate compiler generated dependencies of target gtest_main[0m
-[35m[1mConsolidate compiler generated dependencies of target gtest[0m
-[ 12%] [32mBuilding CXX object CMakeFiles/robot_commander.dir/src/main.cpp.o[0m
-[ 37%] Built target gtest_main
-[ 62%] Built target gtest
-[ 75%] [32mBuilding CXX object CMakeFiles/my_controller_test.dir/test/test.cpp.o[0m
-[ 87%] [32m[1mLinking CXX executable my_controller_test[0m
-[ 87%] Built target my_controller_test
