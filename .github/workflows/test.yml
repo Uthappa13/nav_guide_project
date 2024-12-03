@@ -34,11 +34,11 @@ name: Nav-guide-project
 on:
   # Triggered whenever push to main 
   push:
-    branches: [ "iteration1" ]
+    branches: [ "iteration3" ]
 
   # Triggered whenever a pull request is created on main
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
     types: [opened]
 
   # Allow manual trigger
@@ -70,7 +70,7 @@ jobs:
       - name: Build, run unit test, and generate coverage report
         run: |
           ./do-tests-and-coverage.bash
-          cat ./build/my_model/test_coverage.info
+          cat build/test_coverage_merged.info
 
       # Upload coverage result to CodeCov
       - name: Upload coverage result to CodeCov
