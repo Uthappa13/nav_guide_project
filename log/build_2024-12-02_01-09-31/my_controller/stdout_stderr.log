@@ -1,0 +1,26 @@
+[35m[1mConsolidate compiler generated dependencies of target robot_commander[0m
+[ 50%] Built target gtest
+[ 50%] Built target gtest_main
+[ 62%] [32mBuilding CXX object CMakeFiles/robot_commander.dir/src/main.cpp.o[0m
+[35m[1mConsolidate compiler generated dependencies of target my_controller_test[0m
+[ 87%] Built target my_controller_test
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:283:3:[m[K [01;31m[Kerror: [m[K‘[01m[KEnvironment[m[K’ does not name a type
+  283 |   [01;31m[KEnvironment[m[K* testenv;
+      |   [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:[m[K In constructor ‘[01m[KRobotCommandPublisher::RobotCommandPublisher()[m[K’:
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:50:5:[m[K [01;31m[Kerror: [m[K‘[01m[Ktestenv[m[K’ was not declared in this scope; did you mean ‘[01m[Ksetenv[m[K’?
+   50 |     [01;31m[Ktestenv[m[K = new Workspace(4, 0.5, start_positions, goal_positions);
+      |     [01;31m[K^~~~~~~[m[K
+      |     [32m[Ksetenv[m[K
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:[m[K In member function ‘[01m[Kvoid RobotCommandPublisher::timer_callback()[m[K’:
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:165:7:[m[K [01;31m[Kerror: [m[K‘[01m[Ktestenv[m[K’ was not declared in this scope; did you mean ‘[01m[Ksetenv[m[K’?
+  165 |       [01;31m[Ktestenv[m[K->perform_iteration();
+      |       [01;31m[K^~~~~~~[m[K
+      |       [32m[Ksetenv[m[K
+[01m[K/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_controller/src/main.cpp:170:9:[m[K [01;31m[Kerror: [m[K‘[01m[Ktestenv[m[K’ was not declared in this scope; did you mean ‘[01m[Ksetenv[m[K’?
+  170 |         [01;31m[Ktestenv[m[K->getSimAgentDesiredPositions();
+      |         [01;31m[K^~~~~~~[m[K
+      |         [32m[Ksetenv[m[K
+gmake[2]: *** [CMakeFiles/robot_commander.dir/build.make:76: CMakeFiles/robot_commander.dir/src/main.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:212: CMakeFiles/robot_commander.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

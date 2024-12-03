@@ -1,0 +1,79 @@
+[0.010s] Invoking command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_model -DCMAKE_INSTALL_PREFIX=/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model
+[0.118s] -- The C compiler identification is GNU 11.4.0
+[0.199s] -- The CXX compiler identification is GNU 11.4.0
+[0.210s] -- Detecting C compiler ABI info
+[0.281s] -- Detecting C compiler ABI info - done
+[0.288s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.288s] -- Detecting C compile features
+[0.289s] -- Detecting C compile features - done
+[0.292s] -- Detecting CXX compiler ABI info
+[0.376s] -- Detecting CXX compiler ABI info - done
+[0.382s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.382s] -- Detecting CXX compile features
+[0.383s] -- Detecting CXX compile features - done
+[0.404s] -- Found OpenCV: /usr (found version "4.5.4") 
+[0.568s] -- Found GTest: /usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake (found version "1.11.0")  
+[0.630s] -- Found Doxygen: /usr/bin/doxygen (found version "1.9.1") found components: doxygen dot 
+[0.665s] -- Found rclcpp: 16.0.10 (/opt/ros/humble/share/rclcpp/cmake)
+[0.795s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.957s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.964s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.975s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.994s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.014s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.070s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.074s] -- Found rmw_fastrtps_cpp: 6.2.7 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[1.186s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[1.217s] -- Found FastRTPS: /opt/ros/humble/include  
+[1.262s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.273s] -- Found Threads: TRUE  
+[1.330s] -- CMAKE_BUILD_TYPE = 
+[1.330s] -- WANT_COVERAGE    = OFF
+[1.357s] -- Configuring done
+[1.449s] -- Generating done
+[1.460s] -- Build files have been written to: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model
+[1.471s] Invoked command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model' returned '0': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/src/my_model -DCMAKE_INSTALL_PREFIX=/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model
+[1.473s] Invoking command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake --build /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model -- -j16 -l16
+[1.525s] [  5%] [32mBuilding CXX object libs/RVO2/src/CMakeFiles/RVO.dir/Agent.cpp.o[0m
+[1.526s] [ 17%] [32mBuilding CXX object libs/RVO2/src/CMakeFiles/RVO.dir/KdTree.cpp.o[0m
+[1.526s] [ 17%] [32mBuilding CXX object libs/RVO2/src/CMakeFiles/RVO.dir/Obstacle.cpp.o[0m
+[1.526s] [ 23%] [32mBuilding CXX object libs/RVO2/src/CMakeFiles/RVO.dir/RVOSimulator.cpp.o[0m
+[1.915s] [ 29%] [32m[1mLinking CXX shared library libRVO.so[0m
+[2.014s] [ 29%] Built target RVO
+[2.035s] [ 41%] [32mBuilding CXX object CMakeFiles/my_model.dir/src/workspace.cpp.o[0m
+[2.035s] [ 41%] [32mBuilding CXX object CMakeFiles/my_model.dir/src/robot.cpp.o[0m
+[2.035s] [ 47%] [32mBuilding CXX object libs/RVO2/examples/CMakeFiles/Blocks.dir/Blocks.cpp.o[0m
+[2.035s] [ 52%] [32mBuilding CXX object libs/RVO2/examples/CMakeFiles/Roadmap.dir/Roadmap.cpp.o[0m
+[2.035s] [ 58%] [32mBuilding CXX object libs/RVO2/examples/CMakeFiles/Circle.dir/Circle.cpp.o[0m
+[2.302s] [ 64%] [32m[1mLinking CXX executable Circle[0m
+[2.319s] [ 70%] [32m[1mLinking CXX executable Blocks[0m
+[2.410s] [ 70%] Built target Circle
+[2.426s] [ 70%] Built target Blocks
+[2.498s] [ 76%] [32m[1mLinking CXX static library libmy_model.a[0m
+[2.553s] [ 82%] [32m[1mLinking CXX executable Roadmap[0m
+[2.569s] [ 82%] Built target my_model
+[2.591s] [ 94%] [32mBuilding CXX object test/CMakeFiles/my_model_tester.dir/test.cpp.o[0m
+[2.592s] [ 94%] [32mBuilding CXX object test/CMakeFiles/my_model_tester.dir/main.cpp.o[0m
+[2.657s] [ 94%] Built target Roadmap
+[3.313s] [100%] [32m[1mLinking CXX executable my_model_tester[0m
+[3.588s] [100%] Built target my_model_tester
+[3.602s] Invoked command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model' returned '0': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake --build /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model -- -j16 -l16
+[3.613s] Invoking command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake --install /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model
+[3.620s] -- Install configuration: ""
+[3.620s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/include/RVO.h
+[3.620s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/include/RVOSimulator.h
+[3.620s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/include/Vector2.h
+[3.621s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/lib/libRVO.so
+[3.621s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Blocks
+[3.622s] -- Set runtime path of "/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Blocks" to ""
+[3.622s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Circle
+[3.622s] -- Set runtime path of "/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Circle" to ""
+[3.622s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Roadmap
+[3.623s] -- Set runtime path of "/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/bin/Roadmap" to ""
+[3.623s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/lib/my_model/libmy_model.a
+[3.623s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/lib/my_model/libRVO.so
+[3.624s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/include/robot.hpp
+[3.624s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/include/workspace.hpp
+[3.624s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/share/my_model/cmake/my_model-export.cmake
+[3.624s] -- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_model/share/my_model/cmake/my_model-export-noconfig.cmake
+[3.628s] Invoked command in '/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model' returned '0': PS1=\n\t \[\033[32m\]\w\[\033[33m\]$(GIT_PS1_SHOWUNTRACKEDFILES=1 GIT_PS1_SHOWDIRTYSTATE=1 __git_ps1)\[\033[00m\] $ /usr/bin/cmake --install /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/build/my_model

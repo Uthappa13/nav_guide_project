@@ -1,0 +1,41 @@
+[35m[1mConsolidate compiler generated dependencies of target robot_commander[0m
+[ 25%] Built target gtest_main
+[ 50%] Built target gtest
+[ 62%] [32mBuilding CXX object CMakeFiles/robot_commander.dir/src/main.cpp.o[0m
+[ 87%] Built target my_controller_test
+[100%] [32m[1mLinking CXX executable robot_commander[0m
+[100%] Built target robot_commander
+-- Install configuration: ""
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/lib/my_controller/robot_commander
+-- Set runtime path of "/home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/lib/my_controller/robot_commander" to ""
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/launch
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/launch/gazebo.launch.py
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/launch/robot_state_publisher.launch.py
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/launch/run_demo.launch.py
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/models
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/models/turtlebot3_waffle_pi
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/models/turtlebot3_waffle_pi/model-1_4_.sdf
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/models/turtlebot3_waffle_pi/model.config
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/models/turtlebot3_waffle_pi/model.sdf
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/worlds
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/worlds/warehouse.world
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/worlds/empty_world.world
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/urdf
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/urdf/turtlebot3_waffle_pi.urdf
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/lib/my_controller/run_me_for_fun.bash
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/lib/my_controller/generate_coverage_report.bash
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/ament_index/resource_index/package_run_dependencies/my_controller
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/ament_index/resource_index/parent_prefix_path/my_controller
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/environment/ament_prefix_path.sh
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/environment/ament_prefix_path.dsv
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/environment/path.sh
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/environment/path.dsv
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/local_setup.bash
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/local_setup.sh
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/local_setup.zsh
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/local_setup.dsv
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/package.dsv
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/ament_index/resource_index/packages/my_controller
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/cmake/my_controllerConfig.cmake
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/cmake/my_controllerConfig-version.cmake
+-- Installing: /home/rishie/Documents/Semester-3/ENPM 700/Final Project/nav_guide_project/install/my_controller/share/my_controller/package.xml
