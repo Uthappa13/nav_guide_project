@@ -30,11 +30,11 @@
 # https://github.com/aschmelyun/github-actions-docker-compile
 ##############################################################################
 
-name: Nav-guide-project
+name: test
 on:
   # Triggered whenever push to main 
   push:
-    branches: [ "iteration3" ]
+    branches: [ "master" ]
 
   # Triggered whenever a pull request is created on main
   pull_request:
