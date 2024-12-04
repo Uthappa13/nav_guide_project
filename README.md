@@ -13,7 +13,7 @@ The authors of this project are Rishie Raj and Uthappa Madettira, both graduate 
 This project was developed using the Agile Development Process (AIP) along with pair programming (with a driver and navigator), with a focus on test-driven development (TDD). The product backlog details have been linked below for Iteration-3. The link to the sprint meeting discussions for this sprint have also been linked below.
 
  - [Product Backlog](https://docs.google.com/spreadsheets/d/1E_nRD0vp5bYWbiwfghffEHXf7bQaf3OA0RdkEj6O_uE/edit?usp=drive_link)
- - [Sprint Meeting Plan and Review](https://drive.google.com/file/d/1Y9RJL7VUDx96JyT7fjYdGnY3CoYmM8Pr/view?usp=drive_link)
+ - [Sprint Meeting Plan and Review](https://drive.google.com/file/d/1K6vTpOrr-nsGCVGlvDfw2RAoYpGxLTmL/view?usp=sharing)
 
 The latest (Phase 3) developed UML class and activity diagrams can be found in the UML/revised directory. The earlier devised UML diagrams as a part of Phase 0 are available in the UML/initial directory.
 
