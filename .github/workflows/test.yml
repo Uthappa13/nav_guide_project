@@ -34,7 +34,7 @@ name: Nav-guide-project
 on:
   # Triggered whenever push to main 
   push:
-    branches: [ "iteration1" ]
+    branches: [ "iteration3" ]
 
   # Triggered whenever a pull request is created on main
   pull_request:
@@ -70,14 +70,14 @@ jobs:
       - name: Build, run unit test, and generate coverage report
         run: |
           ./do-tests-and-coverage.bash
-          cat ./build/my_model/test_coverage.info
+          cat build/test_coverage_merged.info
 
       # Upload coverage result to CodeCov
       - name: Upload coverage result to CodeCov
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required (must add token in your github repo)
-          files: ${{github.workspace}}/build/my_model/test_coverage.info
+          files: ${{github.workspace}}/build/test_coverage_merged.info
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)      
           disable_search: true # optional (default = false)
