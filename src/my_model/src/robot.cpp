@@ -1,16 +1,13 @@
+
 #include <robot.hpp>
 
 /**
- * @brief Constructs a new Robot object.
- * 
- * Initializes the robot's position, velocity, and heading based on 
- * the provided initial values.
+ * @brief The constructor for the 'SimAgent' class that initializes the agent's
+ * position, velocity, and heading
  *
- * @param initial_pos A vector containing the initial position {x, y, heading} of the robot.
- * @param initial_vel A vector containing the initial velocity {vx, vy} of the robot.
  */
 Robot::Robot(std::vector<double> initial_pos,
-             std::vector<double> initial_vel) {
+                   std::vector<double> initial_vel) {
   position[0] = initial_pos[0];
   position[1] = initial_pos[1];
   heading = initial_pos[2];
@@ -18,16 +15,15 @@ Robot::Robot(std::vector<double> initial_pos,
 }
 
 /**
- * @brief Updates the robot's current position, velocity, and heading.
- * 
- * This function is used to update the robot's state based on input 
- * received from a high-level planner or sensors.
+ * @brief The function that updates the agent's position, velocity, and heading
+ * based on the input received from the high-level planner
  *
- * @param current_pos A vector containing the current position {x, y, heading} of the robot.
- * @param current_vel A vector containing the current velocity {vx, vy} of the robot.
+ * @param current_pos The current position of the agent
+ * @param current_vel The current velocity of the agent
+ * @return * void
  */
 void Robot::update_robot(std::vector<double> current_pos,
-                         std::vector<double> current_vel) {
+                            std::vector<double> current_vel) {
   position[0] = current_pos[0];
   position[1] = current_pos[1];
   heading = current_pos[2];
@@ -36,52 +32,45 @@ void Robot::update_robot(std::vector<double> current_pos,
 }
 
 /**
- * @brief Updates the robot's desired velocity.
- * 
- * This function sets the desired velocity that the robot aims to achieve.
+ * @brief The function that updates the desired velocity of the agent
  *
- * @param desired_vel A vector containing the desired velocity {vx, vy} of the robot.
+ * @param desired_vel The desired velocity of the agent
+ * @return * void
  */
 void Robot::update_desired_vel(std::vector<double> desired_vel) {
   desired_velocity = desired_vel;
 }
 
 /**
- * @brief Updates the robot's desired position.
- * 
- * This function sets the desired position that the robot aims to reach.
+ * @brief The function that updates the desired position of the agent
  *
- * @param desired_pos A vector containing the desired position {x, y} of the robot.
+ * @param desired_pos The desired position of the agent
+ * @return * void
  */
 void Robot::update_desired_pos(std::vector<double> desired_pos) {
   desired_position = desired_pos;
 }
 
 /**
- * @brief Retrieves the robot's desired velocity.
- * 
- * This function returns the velocity vector that the robot is attempting to achieve.
+ * @brief The function that gets the desired velocity of the agent from RVO
  *
- * @return std::vector<double> A vector representing the robot's desired velocity {vx, vy}.
+ * @return * std::vector<double> The desired velocity of the agent
  */
 std::vector<double> Robot::getRobotDesiredVelocity() {
   return desired_velocity;
 }
 
 /**
- * @brief Retrieves the robot's desired position.
- * 
- * This function returns the position vector that the robot is attempting to reach.
+ * @brief The function that gets the desired position of the agent from RVO
  *
- * @return std::vector<double> A vector representing the robot's desired position {x, y}.
+ * @return * std::vector<double> The desired position of the agent
  */
 std::vector<double> Robot::getRobotDesiredPosition() {
   return desired_position;
 }
 
 /**
- * @brief Destroys the Robot object.
- * 
- * The destructor cleans up any resources used by the Robot instance.
+ * @brief The destructor for the 'SimAgent' class
+ *
  */
 Robot::~Robot() {}
