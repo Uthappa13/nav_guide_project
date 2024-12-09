@@ -17,10 +17,20 @@ This project was developed using the Agile Development Process (AIP) along with 
 
 The latest (Phase 3) developed UML class and activity diagrams can be found in the UML/revised directory. The earlier devised UML diagrams as a part of Phase 0 are available in the UML/initial directory.
 
+### Simulation
+As part of the deliverables, we have linked a video of our simulation that is run in *4x* speed. The simulation has only 5 Turtlebots as it takes a lot of time to simulate for a higher number and often times our system cannot handle the Gazebo simulation.
+
+ - [Video Link](https://drive.google.com/file/d/1idGGaeNVlP_4Y2lMfmZTn_bSoNqE3ta7/view?usp=drive_link)
+
 ### Building the Code
 
-In order to build, run the following codes once you are in the working directory
+In order to build, first clone the repository run the following codes once you are in the working directory
 ```bash
+# Clone the repo
+git clone https://github.com/rishieraj/nav_guide_project.git
+# Move to working directory
+cd nav_guide_project
+
 colcon build 
 source install/setup.bash
 ```
@@ -35,17 +45,24 @@ colcon build --cmake-args -DCOVERAGE=1
 
 ### Running the Demo
 
-To run the demo example of four Turtlebot 3 Waffle Pi, run the commands below.
+To run the demo for *n* number of TurtleBots, use the following commands
 ```bash
+# Remove data from previous build
+rm -rf build/ install/
+# Build again
+colcon build
+# Source your workspace
 source install/setup.bash
-ros2 launch my_controller gazebo.launch.py 
+# Launch the gazebo world with 'n' Turtlebots
+ros2 launch my_controller gazebo.launch.py node_count:=n
 ```
 In another terminal, run the following to start the solver node and simulation.
 ```bash
+# Source your workspace again
 source install/setup.bash
+# Run the node to control the swarm
 ros2 run my_controller robot_commander
 ```
-
 
 ### Running the Unit and Integration Tests
 
@@ -55,21 +72,9 @@ source install/setup.bash
 colcon test
 ```
 
+### Generating the Combined Coverage Report
 
-### Getting the Test Coverage Report for `my_controller`:
-
-To get the test coverage for the ROS 2 package, run the commands listed below.
-``` bash
-ros2 run my_controller generate_coverage_report.bash
-open build/my_controller/test_coverage/index.html
+To generate the combined coverage report for both the packages, bash scripts have been written. Just run the following command
+```bash
+./do-tests-and-coverage.bash
 ```
-
-### Getting the Test Coverage Report for `my_model`:
-
-``` bash
-colcon build \
-       --event-handlers console_cohesion+ \
-       --packages-select my_model \
-       --cmake-target "test_coverage" \
-       --cmake-arg -DUNIT_TEST_ALREADY_RAN=1
-open build/my_model/test_coverage/index.html
