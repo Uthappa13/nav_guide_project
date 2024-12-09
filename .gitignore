@@ -1,6 +1,0 @@
-compile_commands.json
-build/
-install/
-log/
-.cache/
-combined_test_coverage/
