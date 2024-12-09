@@ -154,11 +154,9 @@ private:
         vel_msg.linear.x = 0.0;
         vel_msg.angular.z = (yaw_error > 0) ? 0.05 : -0.05;
         all_oriented = false;
-        RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is turning");
       } else {
         vel_msg.linear.x = 0.0;
         vel_msg.angular.z = 0.0;
-        RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is oriented");
       }
       velocity_pubs[i]->publish(vel_msg);
     }
@@ -177,11 +175,9 @@ private:
           vel_msg.linear.x = 0.1;
           vel_msg.angular.z = 0.0;
           all_reached = false;
-          RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is moving");
         } else {
           vel_msg.linear.x = 0.0;
           vel_msg.angular.z = 0.0;
-          RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " has reached");
         }
         velocity_pubs[i]->publish(vel_msg);
       }
