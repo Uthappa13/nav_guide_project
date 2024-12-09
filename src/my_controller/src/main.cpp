@@ -29,71 +29,67 @@
 
 using namespace std::chrono_literals;
 
-/**
- * @brief A class that gives a ROS 2 functionality to the 'swarm control'
- * library to simulate collision avoidance in Gazebo using Turtlebot 3 Waffle
- *
- */
 class RobotCommandPublisher : public rclcpp::Node {
- public:
-  RobotCommandPublisher() : Node("robot_commander") {
-    // Start Simulation Create Env
-    std::vector<std::vector<double>> start_positions{
-        robot_1_pose, robot_2_pose, robot_3_pose, robot_4_pose};
-    RVO::Vector2 robot_1_goal(5.0f, 5.0f);
-    RVO::Vector2 robot_2_goal(-5.0f, -5.0f);
-    RVO::Vector2 robot_3_goal(-5.0f, 5.0f);
-    RVO::Vector2 robot_4_goal(5.0f, -5.0f);
+public:
+  RobotCommandPublisher(int num_robots)
+  : Node("robot_commander"), 
+    num_robots(num_robots),
+    orientation_complete(false),
+    iteration_complete(false)
+  {
+    // Create start and goal positions for all robots
+    std::vector<std::vector<double>> start_positions(num_robots, std::vector<double>(3, 0.0));
+    std::vector<RVO::Vector2> goal_positions;
 
-    std::vector<RVO::Vector2> goal_positions{robot_1_goal, robot_2_goal,
-                                             robot_3_goal, robot_4_goal};
-    testenv = new Workspace(4, 0.5, start_positions, goal_positions);
-    // Publishers
-    velocity_pub_robot1 = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/robot1/cmd_vel", 10);
-    velocity_pub_robot2 = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/robot2/cmd_vel", 10);
-    velocity_pub_robot3 = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/robot3/cmd_vel", 10);
-    velocity_pub_robot4 = this->create_publisher<geometry_msgs::msg::Twist>(
-        "/robot4/cmd_vel", 10);
+    double radius = 5.0;
+    for (int i = 0; i < num_robots; i++) {
+      double angle = 2 * M_PI * i / num_robots;
+      double x = radius * std::cos(angle);
+      double y = radius * std::sin(angle);
+      start_positions[i][0] = x;
+      start_positions[i][1] = y;
+      start_positions[i][2] = 0.0; // initial yaw
+
+      double goal_x = -x;
+      double goal_y = -y;
+      goal_positions.push_back(RVO::Vector2(goal_x, goal_y));
+    }
+
+    // Use num_robots instead of hardcoding 4 here
+    testenv = new Workspace(num_robots, 0.5, start_positions, goal_positions);
+
+    robot_poses = start_positions;
+    // Create a vector of velocities for all robots
+    robot_velocities.resize(num_robots, std::vector<double>(3,0.0));
+
+    // Create publishers and subscribers
+    velocity_pubs.resize(num_robots);
+    odom_subs.resize(num_robots);
+
+    for (int i = 0; i < num_robots; i++) {
+      std::string robot_name = "robot" + std::to_string(i+1);
+      velocity_pubs[i] = this->create_publisher<geometry_msgs::msg::Twist>("/" + robot_name + "/cmd_vel", 10);
+      odom_subs[i] = this->create_subscription<nav_msgs::msg::Odometry>(
+        "/" + robot_name + "/odom", 10,
+        [this, i](nav_msgs::msg::Odometry::SharedPtr msg) {
+          this->odom_callback(msg, i);
+        }
+      );
+    }
+
+    // Create the timer
     timer = this->create_wall_timer(
         500ms, std::bind(&RobotCommandPublisher::timer_callback, this));
-    // Odom Subscribers
-    robot1_odom_subscription =
-        this->create_subscription<nav_msgs::msg::Odometry>(
-            "/robot1/odom", 10,
-            std::bind(&RobotCommandPublisher::robot1_odom_callback, this,
-                      std::placeholders::_1));
-    robot2_odom_subscription =
-        this->create_subscription<nav_msgs::msg::Odometry>(
-            "/robot2/odom", 10,
-            std::bind(&RobotCommandPublisher::robot2_odom_callback, this,
-                      std::placeholders::_1));
-    robot3_odom_subscription =
-        this->create_subscription<nav_msgs::msg::Odometry>(
-            "/robot3/odom", 10,
-            std::bind(&RobotCommandPublisher::robot3_odom_callback, this,
-                      std::placeholders::_1));
-    robot4_odom_subscription =
-        this->create_subscription<nav_msgs::msg::Odometry>(
-            "/robot4/odom", 10,
-            std::bind(&RobotCommandPublisher::robot4_odom_callback, this,
-                      std::placeholders::_1));
-
-    iteration_complete = false;
-    orientation_complete = false;
   }
 
- private:
-  /**
-   * @brief The called function from the subscriber callback that uses the
-   * published odometry topic to get the pose of the specified robot (closing
-   * the loop)
-   *
-   * @param msg The '/odom' topic message
-   * @return * std::vector<double> The pose of the robot
-   */
+private:
+
+  double normalize_angle(double angle) {
+    while (angle > M_PI) angle -= 2.0 * M_PI;
+    while (angle < -M_PI) angle += 2.0 * M_PI;
+    return angle;
+  }
+
   std::vector<double> extract_pose(nav_msgs::msg::Odometry::SharedPtr msg) {
     tf2::Quaternion q(
         msg->pose.pose.orientation.x, msg->pose.pose.orientation.y,
@@ -103,211 +99,116 @@ class RobotCommandPublisher : public rclcpp::Node {
     m.getRPY(roll, pitch, yaw);
     double x = msg->pose.pose.position.x;
     double y = msg->pose.pose.position.y;
-    std::vector<double> robot_pose;
-    robot_pose.push_back(x);
-    robot_pose.push_back(y);
-    robot_pose.push_back(yaw);
-    return robot_pose;
+    return {x, y, yaw};
   }
 
-  /**
-   * @brief The ododmetry callback for Robot 1
-   *
-   * @param msg '/odom' topic message
-   * @return * void
-   */
-  void robot1_odom_callback(nav_msgs::msg::Odometry::SharedPtr msg) {
-    robot_1_pose = extract_pose(msg);
+  void odom_callback(nav_msgs::msg::Odometry::SharedPtr msg, int robot_idx) {
+    robot_poses[robot_idx] = extract_pose(msg);
+    double vx = msg->twist.twist.linear.x;
+    double vy = msg->twist.twist.linear.y;
+    double yaw_rate = msg->twist.twist.angular.z;
+
+    robot_velocities[robot_idx][0] = vx;
+    robot_velocities[robot_idx][1] = vy;
+    robot_velocities[robot_idx][2] = yaw_rate;
   }
 
-  /**
-   * @brief The odometry callback for Robot 2
-   *
-   * @param msg '/odom' topic message
-   * @return * void
-   */
-  void robot2_odom_callback(nav_msgs::msg::Odometry::SharedPtr msg) {
-    robot_2_pose = extract_pose(msg);
-  }
-
-  /**
-   * @brief The odometry calllback for Robot 3
-   *
-   * @param msg '/odom' topic message
-   * @return * void
-   */
-  void robot3_odom_callback(nav_msgs::msg::Odometry::SharedPtr msg) {
-    robot_3_pose = extract_pose(msg);
-  }
-
-  /**
-   * @brief The odometry callback for Robot 4
-   *
-   * @param msg '/odom' topic message
-   * @return * void
-   */
-  void robot4_odom_callback(nav_msgs::msg::Odometry::SharedPtr msg) {
-    robot_4_pose = extract_pose(msg);
-  }
-
-  /**
-   * @brief The timer callback for the '/cmd_vel' publisher for the
-   * robots/agents that publishes the required angular velocity followed by the
-   * required linear velocity
-   *
-   * @return * void
-   */
   void timer_callback() {
-    std::vector<std::vector<double>> robot_poses{robot_1_pose, robot_2_pose,
-                                                 robot_3_pose, robot_4_pose};
+    // Create vectors current_positions, current_velocities from robot_poses and robot_velocities
+    std::vector<std::vector<double>> current_poses(num_robots, std::vector<double>(3, 0.0));
+    std::vector<std::vector<double>> current_vels(num_robots, std::vector<double>(3, 0.0));
+
+    for (int i = 0; i < num_robots; i++) {
+      current_poses[i][0] = robot_poses[i][0];
+      current_poses[i][1] = robot_poses[i][1];
+      current_poses[i][2] = robot_poses[i][2];
+
+      current_vels[i][0] = robot_velocities[i][0];
+      current_vels[i][1] = robot_velocities[i][1];
+      current_vels[i][2] = robot_velocities[i][2]; // Actual yaw rate
+    }
+
+    // Update the environment with the current state
+    testenv->update_environment(num_robots, current_poses, current_vels);
+
     if (!iteration_complete) {
       RCLCPP_INFO_STREAM(this->get_logger(), "New iteration");
       testenv->perform_iteration();
-      iteration_complete = !iteration_complete;
+      iteration_complete = true;
       orientation_complete = false;
     }
-    std::vector<std::vector<double>> robot_desired_positions =
-        testenv->getRobotDesiredPositions();
-    // Heading Control
-    std::vector<double> desired_headings;
-    for (int i = 0; i < 4; i++) {
-      desired_headings.push_back(
-          std::atan2((robot_desired_positions[i][1] - robot_poses[i][1]),
-                     (robot_desired_positions[i][0] - robot_poses[i][0])));
-    }
-    auto velocity_msg_robot1 = geometry_msgs::msg::Twist();
-    auto velocity_msg_robot2 = geometry_msgs::msg::Twist();
-    auto velocity_msg_robot3 = geometry_msgs::msg::Twist();
-    auto velocity_msg_robot4 = geometry_msgs::msg::Twist();
 
-    if (abs(desired_headings[0] - robot_poses[0][2]) > 0.05) {
-      velocity_msg_robot1.linear.x = 0.0;
-      if (desired_headings[0] - robot_poses[0][2] > 0) {
-        velocity_msg_robot1.angular.z = 0.05;
-      } else {
-        velocity_msg_robot1.angular.z = -0.05;
-      }
-      velocity_pub_robot1->publish(velocity_msg_robot1);
-    } else {
-      velocity_msg_robot1.linear.x = 0.0;
-      velocity_msg_robot1.angular.z = 0.0;
-      velocity_pub_robot1->publish(velocity_msg_robot1);
-    }
-    if (abs(desired_headings[1] - robot_poses[1][2]) > 0.05) {
-      velocity_msg_robot2.linear.x = 0.0;
-      if (desired_headings[1] - robot_poses[1][2] > 0) {
-        velocity_msg_robot2.angular.z = 0.05;
-      } else {
-        velocity_msg_robot2.angular.z = -0.05;
-      }
-      velocity_pub_robot2->publish(velocity_msg_robot2);
-    } else {
-      velocity_msg_robot2.linear.x = 0.0;
-      velocity_msg_robot2.angular.z = 0.0;
-      velocity_pub_robot2->publish(velocity_msg_robot2);
+    std::vector<std::vector<double>> robot_desired_positions = testenv->getRobotDesiredPositions();
+    std::vector<double> desired_headings(num_robots, 0.0);
+    for (int i = 0; i < num_robots; i++) {
+      double dx = robot_desired_positions[i][0] - robot_poses[i][0];
+      double dy = robot_desired_positions[i][1] - robot_poses[i][1];
+      desired_headings[i] = std::atan2(dy, dx);
     }
 
-    if (abs(desired_headings[2] - robot_poses[2][2]) > 0.05) {
-      velocity_msg_robot3.linear.x = 0.0;
-      if (desired_headings[2] - robot_poses[2][2] > 0) {
-        velocity_msg_robot3.angular.z = 0.05;
+    bool all_oriented = true;
+    for (int i = 0; i < num_robots; i++) {
+      geometry_msgs::msg::Twist vel_msg;
+      double yaw_error = normalize_angle(desired_headings[i] - robot_poses[i][2]);
+      if (std::fabs(yaw_error) > 0.1) {
+        vel_msg.linear.x = 0.0;
+        vel_msg.angular.z = (yaw_error > 0) ? 0.05 : -0.05;
+        all_oriented = false;
+        RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is turning");
       } else {
-        velocity_msg_robot3.angular.z = -0.05;
+        vel_msg.linear.x = 0.0;
+        vel_msg.angular.z = 0.0;
+        RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is oriented");
       }
-      velocity_pub_robot3->publish(velocity_msg_robot3);
-    } else {
-      velocity_msg_robot3.linear.x = 0.0;
-      velocity_msg_robot3.angular.z = 0.0;
-      velocity_pub_robot3->publish(velocity_msg_robot3);
+      velocity_pubs[i]->publish(vel_msg);
     }
-    if (abs(desired_headings[3] - robot_poses[3][2]) > 0.05) {
-      velocity_msg_robot4.linear.x = 0.0;
-      if (desired_headings[3] - robot_poses[3][2] > 0) {
-        velocity_msg_robot4.angular.z = 0.05;
-      } else {
-        velocity_msg_robot4.angular.z = -0.05;
-      }
-      velocity_pub_robot4->publish(velocity_msg_robot4);
-    } else {
-      velocity_msg_robot4.linear.x = 0.0;
-      velocity_msg_robot4.angular.z = 0.0;
-      velocity_pub_robot4->publish(velocity_msg_robot4);
-    }
-    if ((abs(desired_headings[0] - robot_poses[0][2]) < 0.05) &&
-        (abs(desired_headings[1] - robot_poses[1][2]) < 0.05) &&
-        (abs(desired_headings[2] - robot_poses[2][2]) < 0.05) &&
-        (abs(desired_headings[3] - robot_poses[3][2]) < 0.05)) {
-      orientation_complete = true;
-    }
+
+    orientation_complete = all_oriented;
+
     if (orientation_complete) {
-      double distance_robot_1 = std::sqrt(
-          std::pow((robot_desired_positions[0][1] - robot_poses[0][1]), 2) +
-          std::pow((robot_desired_positions[0][0] - robot_poses[0][0]), 2));
-      double distance_robot_2 = std::sqrt(
-          std::pow((robot_desired_positions[1][1] - robot_poses[1][1]), 2) +
-          std::pow((robot_desired_positions[1][0] - robot_poses[1][0]), 2));
-      double distance_robot_3 = std::sqrt(
-          std::pow((robot_desired_positions[2][1] - robot_poses[2][1]), 2) +
-          std::pow((robot_desired_positions[2][0] - robot_poses[2][0]), 2));
-      double distance_robot_4 = std::sqrt(
-          std::pow((robot_desired_positions[3][1] - robot_poses[3][1]), 2) +
-          std::pow((robot_desired_positions[3][0] - robot_poses[3][0]), 2));
-      if (abs(distance_robot_1) > 0.05) {
-        velocity_msg_robot1.linear.x = 0.1;
-        velocity_msg_robot1.angular.z = 0.0;
-        velocity_pub_robot1->publish(velocity_msg_robot1);
+      bool all_reached = true;
+      for (int i = 0; i < num_robots; i++) {
+        double dist = std::sqrt(
+          std::pow(robot_desired_positions[i][0] - robot_poses[i][0], 2) +
+          std::pow(robot_desired_positions[i][1] - robot_poses[i][1], 2)
+        );
+        geometry_msgs::msg::Twist vel_msg;
+        if (dist > 0.05) {
+          vel_msg.linear.x = 0.1;
+          vel_msg.angular.z = 0.0;
+          all_reached = false;
+          RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " is moving");
+        } else {
+          vel_msg.linear.x = 0.0;
+          vel_msg.angular.z = 0.0;
+          RCLCPP_INFO_STREAM(this->get_logger(), "Robot " << i << " has reached");
+        }
+        velocity_pubs[i]->publish(vel_msg);
       }
-      if (abs(distance_robot_2) > 0.05) {
-        velocity_msg_robot2.linear.x = 0.1;
-        velocity_msg_robot2.angular.z = 0.0;
-        velocity_pub_robot2->publish(velocity_msg_robot2);
-      }
-      if (abs(distance_robot_3) > 0.05) {
-        velocity_msg_robot3.linear.x = 0.1;
-        velocity_msg_robot3.angular.z = 0.0;
-        velocity_pub_robot3->publish(velocity_msg_robot3);
-      }
-      if (abs(distance_robot_4) > 0.05) {
-        velocity_msg_robot4.linear.x = 0.1;
-        velocity_msg_robot4.angular.z = 0.0;
-        velocity_pub_robot4->publish(velocity_msg_robot4);
-      }
-      if ((abs(distance_robot_1) < 0.05) && (abs(distance_robot_2) < 0.05) &&
-          (abs(distance_robot_3) < 0.05) && (abs(distance_robot_4) < 0.05)) {
+
+      if (all_reached) {
         iteration_complete = false;
       }
     }
   }
+
+  int num_robots;
   bool orientation_complete;
   bool iteration_complete;
   Workspace* testenv;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_pub_robot1;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_pub_robot2;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_pub_robot3;
-  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr velocity_pub_robot4;
   rclcpp::TimerBase::SharedPtr timer;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
-      robot1_odom_subscription;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
-      robot2_odom_subscription;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
-      robot3_odom_subscription;
-  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr
-      robot4_odom_subscription;
-  std::vector<double> robot_1_pose{-5.0f, -5.0f, 0.0};
-  std::vector<double> robot_2_pose{5.0f, 5.0f, 0.0};
-  std::vector<double> robot_3_pose{5.0f, -5.0f, 0.0};
-  std::vector<double> robot_4_pose{-5.0f, 5.0f, 0.0};
+
+  // Now these are the main members for multiple robots:
+  std::vector<std::vector<double>> robot_poses;
+  std::vector<std::vector<double>> robot_velocities;
+  std::vector<rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr> velocity_pubs;
+  std::vector<rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr> odom_subs;
 };
 
-/**
- * @brief The main function where all calls to ROS node functionalities are made
- *
- * @return * int
- */
 int main(int argc, char** argv) {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<RobotCommandPublisher>());
+  int num_robots = 5;
+  rclcpp::spin(std::make_shared<RobotCommandPublisher>(num_robots));
   rclcpp::shutdown();
   return 0;
 }
