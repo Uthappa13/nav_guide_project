@@ -1,3 +1,13 @@
+/**
+ * @file workspace.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-12-08
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
@@ -21,7 +31,7 @@ Workspace::Workspace(int num_robots, float timestep,
   // Set time step
   sim->setTimeStep(timestep);
   // Specify default parameters for agents that are subsequently added.
-  sim->setAgentDefaults(5.0f, 5, 10.0f, 5.0f, 0.5f, 2.0f);
+  sim->setAgentDefaults(5.0f, 10, 10.0f, 5.0f, 0.5f, 2.0f);
   for (int i = 0; i < num_robots; i++) {
     RVO::Vector2 startPositon = {static_cast<float>(start_positions[i][0]),
                                  static_cast<float>(start_positions[i][1])};
@@ -118,14 +128,14 @@ void Workspace::update_environment(
     RVO::Vector2 currentVelocity = {
         static_cast<float>(current_velocities[i][0]),
         static_cast<float>(current_velocities[i][1])};
-    // sim->setAgentVelocity(i,currentVelocity);
-    // sim->setAgentPosition(i,currentPositon);
+    sim->setAgentVelocity(i,currentVelocity);
+    sim->setAgentPosition(i,currentPositon);
     std::vector<double> current_pos{current_positions[i][0],
                                     current_positions[i][1],
                                     current_positions[i][2]};
-    std::vector<double> current_vel{current_positions[i][0],
-                                    current_positions[i][1],
-                                    current_positions[i][2]};
+    std::vector<double> current_vel{current_velocities[i][0],
+                                    current_velocities[i][1],
+                                    current_velocities[i][2]};
     robots[i].update_robot(current_pos, current_vel);
   }
 }
